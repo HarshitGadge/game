@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Romantic Office Escape</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="wrap">
+    <canvas id="game" width="960" height="540"></canvas>
+
+    <div class="hud">
+      <span id="hint">Walk near boku and press E to talk.</span>
+    </div>
+
+    <!-- Polaroids UI -->
+    <div id="polaroidTray" class="polaroid-tray">
+      <div class="polaroid-title">📸 Polaroids</div>
+      <div id="polaroids" class="polaroids"></div>
+    </div>
+
+    <!-- Modal system -->
+    <div id="modalBackdrop" class="backdrop hidden"></div>
+
+    <div id="modal" class="modal hidden">
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-body" id="modalBody"></div>
+
+      <div class="modal-input hidden" id="modalInputRow">
+        <input id="modalInput" type="text" />
+      </div>
+
+      <div class="modal-actions" id="modalActions">
+        <button id="modalSecondary" class="secondary hidden">Cancel</button>
+        <button id="modalPrimary">OK</button>
+      </div>
+    </div>
+
+    <!-- Valentine cutscene overlay (fade + blur) -->
+    <div id="valentineOverlay" class="valentine-overlay" aria-hidden="true">
+      <div class="val-card" role="dialog" aria-modal="true">
+        <div class="val-head">
+          <div class="val-title">💖 Valentine Moment</div>
+          <button id="valCloseBtn" class="val-close" type="button">Close</button>
+        </div>
+
+        <video id="valentineVideo" controls playsinline>
+          <source src="valentine.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+
+    <!-- Credits overlay -->
+    <div id="creditsOverlay" class="credits-overlay" aria-hidden="true">
+      <div class="credits-card">
+        <div class="credits-skip">Click anywhere to close</div>
+        <div class="credits-roll" id="creditsRoll">
+          <div class="credits-line big">❤️ Credits ❤️</div>
+          <div class="credits-line">Made by <b>boku</b></div>
+          <div class="credits-line">Starring <b>shiddu</b></div>
+          <div class="credits-line">Featuring: Clock • Bike • Sunset</div>
+          <div class="credits-line">Location: The Office</div>
+          <div class="credits-line big">Happy Valentine’s 💖</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
