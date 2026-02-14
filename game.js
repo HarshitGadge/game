@@ -782,12 +782,7 @@ function drawSparks() {
 function triggerFart() {
   if (fartEffect) return;
   const responses = [
-    "…did that just happen?",
-    "Okay wow.",
-    "You serious right now?",
-    "This is romantic how?",
-    "Okay breathe… not like that.",
-    "I’m pretending I didn’t hear that."
+    "Ayy,Padrya!",
   ];
   fartEffect = { x: player.x + player.w / 2, y: player.y + player.h, timer: 90, text: responses[Math.floor(Math.random() * responses.length)] };
 }
@@ -1296,7 +1291,7 @@ async function interactBoy() {
 async function interactClock() {
   const ans = await openModal({
     title: "Wall Clock",
-    body: "Hint:\nWhat is the anniversary date?\n\nEnter in DD/MM format.\nExample: 18/05",
+    body: "Hint:\nWhat is the anniversary date?\n\nEnter in DD/MM format.\n",
     input: true,
     primaryText: "Set time",
     secondaryText: "Cancel",
@@ -1305,7 +1300,7 @@ async function interactClock() {
   if (ans === null) return;
 
   const d = normalizeDate(ans);
-  if (d !== "18/05") {
+  if (d !== "17/05") {
     await openModal({ title: "Clock", body: "That doesn’t feel right… try again.", primaryText: "OK" });
     return;
   }
