@@ -459,8 +459,8 @@ const state = {
 };
 
 // ----------------- Entities -----------------
-const player = { x: 740, y: 380, w: 34, h: 34, speed: 2.6, bounce: 0 }; // shiddu
-const npcBoy = { x: 120, y: 360, w: 34, h: 34, interactRadius: 78 }; // boku
+const player = { x: 740, y: 380, w: 34, h: 34, speed: 2.6, bounce: 0 }; // jheelz
+const npcBoy = { x: 120, y: 360, w: 34, h: 34, interactRadius: 78 }; // ninuli
 
 const objects = {
   clock:   { x: 465, y: 48,  w: 50, h: 50, glowRadius: 92 },
@@ -473,7 +473,7 @@ let inspection = null; // { type: "clock"|"bike"|"sun" }
 
 // Interaction animation
 let interactionEffect = null; // { type:"hug"|"highfive", t:number, didBurst:boolean }
-let renderOffsets = { boku: { x: 0, y: 0 }, shiddu: { x: 0, y: 0 } };
+let renderOffsets = { ninuli: { x: 0, y: 0 }, jheelz: { x: 0, y: 0 } };
 let sparkBursts = []; // {x,y,vx,vy,life}
 
 let fartEffect = null; // { x,y,timer,text }
@@ -558,7 +558,7 @@ async function openValentinePrompt() {
 
   clearActionButtons();
 
-  modalTitle.textContent = "boku";
+  modalTitle.textContent = "ninuli";
   modalBody.textContent =
     "Okay breathe… don’t mess up.\n\n" +
     "You did it.\n\n" +
@@ -809,8 +809,8 @@ function drawFart() {
 
   drawSpeechBubble(
     fartEffect.text,
-    npcBoy.x + npcBoy.w / 2 + renderOffsets.boku.x,
-    npcBoy.y - 30 + renderOffsets.boku.y
+    npcBoy.x + npcBoy.w / 2 + renderOffsets.ninuli.x,
+    npcBoy.y - 30 + renderOffsets.ninuli.y
   );
 }
 
@@ -933,7 +933,7 @@ function movePlayer() {
 }
 
 // ----------------- NPC mood / pose -----------------
-function getBokuMood() {
+function getninuliMood() {
   if (!state.flags.introDone) return "calm";
   if (state.step === 1 && !state.flags.clockFixed) return "calm";
   if (state.flags.clockFixed && !state.flags.bikeSolved) return "excited";
@@ -1115,8 +1115,8 @@ function updateEffects() {
   updateShutter();
 
   // reset render offsets
-  renderOffsets.boku.x = 0; renderOffsets.boku.y = 0;
-  renderOffsets.shiddu.x = 0; renderOffsets.shiddu.y = 0;
+  renderOffsets.ninuli.x = 0; renderOffsets.ninuli.y = 0;
+  renderOffsets.jheelz.x = 0; renderOffsets.jheelz.y = 0;
 
   // sparks
   for (const s of sparkBursts) {
@@ -1151,11 +1151,11 @@ function updateEffects() {
       const dx = (bcx - pcx) * 0.28 * amt;
       const dy = (bcy - pcy) * 0.12 * amt;
 
-      renderOffsets.shiddu.x = dx;
-      renderOffsets.shiddu.y = dy;
+      renderOffsets.jheelz.x = dx;
+      renderOffsets.jheelz.y = dy;
 
-      renderOffsets.boku.x = -dx * 0.15;
-      renderOffsets.boku.y = -dy * 0.10;
+      renderOffsets.ninuli.x = -dx * 0.15;
+      renderOffsets.ninuli.y = -dy * 0.10;
 
       if (!interactionEffect.didBurst && tt > 0.32) {
         interactionEffect.didBurst = true;
@@ -1177,11 +1177,11 @@ function updateEffects() {
       const dx = (bcx - pcx) * 0.16 * amt;
       const dy = (bcy - pcy) * 0.06 * amt;
 
-      renderOffsets.shiddu.x = dx;
-      renderOffsets.shiddu.y = dy;
+      renderOffsets.jheelz.x = dx;
+      renderOffsets.jheelz.y = dy;
 
-      renderOffsets.boku.x = -dx;
-      renderOffsets.boku.y = -dy;
+      renderOffsets.ninuli.x = -dx;
+      renderOffsets.ninuli.y = -dy;
 
       if (!interactionEffect.didBurst && tt > 0.38) {
         interactionEffect.didBurst = true;
@@ -1208,7 +1208,7 @@ function drawShutterFlash() {
 async function interactBoy() {
   if (!state.flags.introDone) {
     await openModal({
-      title: "boku",
+      title: "ninuli",
       body:
         "Hey… I made a little escape room for you.\n\n" +
         "The office has puzzles hidden around.\n" +
@@ -1224,7 +1224,7 @@ async function interactBoy() {
   }
 
   const action = await openActionsModal({
-    title: "boku",
+    title: "ninuli",
     body: "Choose:",
     actions: [
       { label: "Talk 💬", id: "talk", kind: "primary" },
@@ -1247,22 +1247,22 @@ async function interactBoy() {
   if (action !== "talk") return;
 
   if (state.step === 1 && !state.flags.clockFixed) {
-    await openModal({ title: "boku", body: "The clock is still wrong… try fixing it near the windows.", primaryText: "Got it" });
+    await openModal({ title: "ninuli", body: "The clock is still wrong… try fixing it near the windows.", primaryText: "Got it" });
     return;
   }
   if (state.step === 2 && !state.flags.bikeSolved) {
-    await openModal({ title: "boku", body: "Nice… now follow what the clock revealed. Something has a number.", primaryText: "Okay" });
+    await openModal({ title: "ninuli", body: "Nice… now follow what the clock revealed. Something has a number.", primaryText: "Okay" });
     return;
   }
   if (state.step === 3 && !state.flags.sunSolved) {
-    await openModal({ title: "boku", body: "Almost there… look at the sun. It’s setting for a reason.", primaryText: "Okay" });
+    await openModal({ title: "ninuli", body: "Almost there… look at the sun. It’s setting for a reason.", primaryText: "Okay" });
     return;
   }
 
   if (state.step >= 4 && !state.flags.valentineAsked) {
     if (!state.flags.breatheLineShown) {
       state.flags.breatheLineShown = true;
-      await openModal({ title: "boku", body: "Okay breathe… don’t mess up.", primaryText: "…" });
+      await openModal({ title: "ninuli", body: "Okay breathe… don’t mess up.", primaryText: "…" });
       return;
     }
 
@@ -1300,7 +1300,7 @@ async function interactClock() {
   if (ans === null) return;
 
   const d = normalizeDate(ans);
-  if (d !== "17/05") {
+  if (d !== "05/11") {
     await openModal({ title: "Clock", body: "That doesn’t feel right… try again.", primaryText: "OK" });
     return;
   }
@@ -1311,7 +1311,7 @@ async function interactClock() {
 
   await openModal({
     title: "Clock corrected ✅",
-    body: "The hands settle at 18:05.\n\nSomething about that time feels important.",
+    body: "The hands settle at 05:11.\n\nSomething about that time feels important.",
     primaryText: "Continue"
   });
 }
@@ -1342,7 +1342,7 @@ async function interactBike() {
 async function interactSun() {
   const ans = await openModal({
     title: "The Sun (setting)",
-    body: "The sun is slowly going down…\n\nQuestion:\nWhere did we go on our first unofficial date when the sun was setting?",
+    body: "The sun is slowly going down…\n\nQuestion:\nWhere did we go on our first official date when the sun was setting?",
     input: true,
     primaryText: "Answer",
     secondaryText: "Cancel",
@@ -1351,7 +1351,7 @@ async function interactSun() {
   if (ans === null) return;
 
   const t = normalizeText(ans);
-  const ok = (t === "uran beach" || t === "uranbeach" || (t.includes("uran") && t.includes("beach")));
+  const ok = (t === "Cat Cafe" || t === "catcafe" || (t.includes("cat") && t.includes("cafe")));
   if (!ok) {
     await openModal({ title: "Not yet…", body: "Close, but not right. Think of that sunset.", primaryText: "OK" });
     return;
@@ -1377,26 +1377,26 @@ function drawEntities() {
   drawClock();
   if (state.step >= 2) drawBike();
 
-  const mood = getBokuMood();
+  const mood = getninuliMood();
   const breathe = (mood === "holding") ? Math.sin(performance.now() / 120) * 1.6 : 0;
 
-  const bokuOX = renderOffsets.boku.x;
-  const bokuOY = renderOffsets.boku.y;
-  const shidduOX = renderOffsets.shiddu.x;
-  const shidduOY = renderOffsets.shiddu.y;
+  const ninuliOX = renderOffsets.ninuli.x;
+  const ninuliOY = renderOffsets.ninuli.y;
+  const jheelzOX = renderOffsets.jheelz.x;
+  const jheelzOY = renderOffsets.jheelz.y;
 
-  let bokuColor = "rgba(70, 170, 255, 0.95)";
-  if (mood === "excited") bokuColor = "rgba(70, 210, 255, 0.95)";
-  if (mood === "nervous") bokuColor = "rgba(120, 170, 255, 0.95)";
-  if (mood === "holding") bokuColor = "rgba(80, 190, 255, 0.95)";
+  let ninuliColor = "rgba(70, 170, 255, 0.95)";
+  if (mood === "excited") ninuliColor = "rgba(70, 210, 255, 0.95)";
+  if (mood === "nervous") ninuliColor = "rgba(120, 170, 255, 0.95)";
+  if (mood === "holding") ninuliColor = "rgba(80, 190, 255, 0.95)";
 
-  roundRect(npcBoy.x + bokuOX, npcBoy.y + breathe + bokuOY, npcBoy.w, npcBoy.h, 8, bokuColor, "rgba(11,18,32,0.16)");
+  roundRect(npcBoy.x + ninuliOX, npcBoy.y + breathe + ninuliOY, npcBoy.w, npcBoy.h, 8, ninuliColor, "rgba(11,18,32,0.16)");
 
   // arms pose
   ctx.strokeStyle = "rgba(11,18,32,0.18)";
   ctx.lineWidth = 3;
   ctx.lineCap = "round";
-  const bx = npcBoy.x + bokuOX, by = npcBoy.y + breathe + bokuOY, bw = npcBoy.w, bh = npcBoy.h;
+  const bx = npcBoy.x + ninuliOX, by = npcBoy.y + breathe + ninuliOY, bw = npcBoy.w, bh = npcBoy.h;
   const shoulderY = by + bh * 0.55;
 
   if (mood === "excited") {
@@ -1429,17 +1429,17 @@ function drawEntities() {
     ctx.stroke();
   }
 
-  drawFaceSimple(npcBoy.x + bokuOX, npcBoy.y + breathe + bokuOY, npcBoy.w, npcBoy.h, mood, false);
+  drawFaceSimple(npcBoy.x + ninuliOX, npcBoy.y + breathe + ninuliOY, npcBoy.w, npcBoy.h, mood, false);
 
   const bounceY = player.bounce > 0 ? -Math.sin((player.bounce / 14) * Math.PI) * 8 : 0;
 
-  roundRect(player.x + shidduOX, player.y + bounceY + shidduOY, player.w, player.h, 8,
+  roundRect(player.x + jheelzOX, player.y + bounceY + jheelzOY, player.w, player.h, 8,
     "rgba(255, 95, 162, 0.92)", "rgba(11,18,32,0.16)"
   );
-  drawFaceSimple(player.x + shidduOX, player.y + bounceY + shidduOY, player.w, player.h, "calm", true);
+  drawFaceSimple(player.x + jheelzOX, player.y + bounceY + jheelzOY, player.w, player.h, "calm", true);
 
-  drawNameTag("boku", npcBoy.x + npcBoy.w / 2 + bokuOX, npcBoy.y - 26 + bokuOY);
-  drawNameTag("shiddu", player.x + player.w / 2 + shidduOX, player.y - 26 + bounceY + shidduOY);
+  drawNameTag("ninuli", npcBoy.x + npcBoy.w / 2 + ninuliOX, npcBoy.y - 26 + ninuliOY);
+  drawNameTag("jheelz", player.x + player.w / 2 + jheelzOX, player.y - 26 + bounceY + jheelzOY);
 
   // rose shows only when she is near at step>=4 and not yet asked
   const p = playerCenter();
@@ -1449,15 +1449,15 @@ function drawEntities() {
   if (state.step >= 4 && !state.flags.valentineAsked && nearBoy) {
     ctx.fillStyle = "rgba(255, 95, 162, 0.95)";
     ctx.beginPath();
-    ctx.arc(npcBoy.x + npcBoy.w / 2 + bokuOX, npcBoy.y - 18 + breathe + bokuOY, 6.5, 0, Math.PI * 2);
+    ctx.arc(npcBoy.x + npcBoy.w / 2 + ninuliOX, npcBoy.y - 18 + breathe + ninuliOY, 6.5, 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = "rgba(124, 92, 255, 0.65)";
-    ctx.fillRect(npcBoy.x + npcBoy.w / 2 - 1 + bokuOX, npcBoy.y - 10 + breathe + bokuOY, 2, 12);
+    ctx.fillRect(npcBoy.x + npcBoy.w / 2 - 1 + ninuliOX, npcBoy.y - 10 + breathe + ninuliOY, 2, 12);
   }
 
   if (interactionEffect) {
-    const x = npcBoy.x + npcBoy.w / 2 + bokuOX;
-    const y = npcBoy.y - 30 + bokuOY;
+    const x = npcBoy.x + npcBoy.w / 2 + ninuliOX;
+    const y = npcBoy.y - 30 + ninuliOY;
     if (interactionEffect.type === "hug") drawSpeechBubble("That was cute…", x, y);
     if (interactionEffect.type === "highfive") drawSpeechBubble("Nice one!", x, y);
   }
@@ -1469,7 +1469,7 @@ function drawEntities() {
   roundRect(canvas.width - 220, 20, 200, 46, 14, "rgba(255,255,255,0.78)", "rgba(11,18,32,0.10)");
   ctx.fillStyle = "rgba(11,18,32,0.75)";
   ctx.font = "14px system-ui";
-  const stepsText = ["Talk to boku", "Fix the clock", "Check the bike", "Look at the sun", "Go back to boku", "Done 💖"];
+  const stepsText = ["Talk to ninuli", "Fix the clock", "Check the bike", "Look at the sun", "Go back to ninuli", "Done 💖"];
   ctx.fillText(`Goal: ${stepsText[state.step]}`, canvas.width - 206, 48);
 }
 
@@ -1503,9 +1503,9 @@ function update() {
   lastInteractPressed = interactPressed;
 
   const nearby = getNearbyInteractable();
-  if (!state.flags.introDone) hintEl.textContent = "Walk near boku and press E to talk.";
+  if (!state.flags.introDone) hintEl.textContent = "Walk near ninuli and press E to talk.";
   else if (inspection) hintEl.textContent = "ENTER: Interact | ESC: Back";
-  else if (nearby?.type === "boy") hintEl.textContent = "Press E to interact with boku.";
+  else if (nearby?.type === "boy") hintEl.textContent = "Press E to interact with ninuli.";
   else if (nearby?.type === "clock") hintEl.textContent = "Press E to inspect the clock.";
   else if (nearby?.type === "bike") hintEl.textContent = "Press E to inspect the bike.";
   else if (nearby?.type === "sun") hintEl.textContent = "Press E to inspect the sun.";
