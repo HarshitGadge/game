@@ -1052,7 +1052,7 @@ function drawClock() {
 
   ctx.fillStyle = "rgba(11,18,32,0.65)";
   ctx.font = "12px system-ui";
-  ctx.fillText(state.clock.isCorrect ? "18:05" : "10:10", cx - 15, cy + 34);
+  ctx.fillText(state.clock.isCorrect ? "05:11" : "10:10", cx - 15, cy + 34);
 }
 
 function drawBike() {
